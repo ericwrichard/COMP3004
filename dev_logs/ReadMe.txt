@@ -1,0 +1,1 @@
+This directory will store the dev logs for the project. 
