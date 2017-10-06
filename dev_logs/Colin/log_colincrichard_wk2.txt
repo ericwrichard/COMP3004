@@ -1,0 +1,1 @@
+For Week 2 our group decided to spend the week tackling what we believed is going to be the biggest obstacle, which is finding a way to retrieve the needed data from the grocery stores such as price. Spent the week looking at possible APIÕs to help with this.
