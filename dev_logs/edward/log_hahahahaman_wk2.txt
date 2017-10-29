@@ -1,1 +1,1 @@
--researched store APIs
+- researched grocery store APIs to use for data in the application

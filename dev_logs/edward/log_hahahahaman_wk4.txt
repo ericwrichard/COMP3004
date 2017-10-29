@@ -1,0 +1,2 @@
+- continued trying out grocery store APIs
+  - realized there were numerous issues with this method since not all stores kept data on their website, each store had different APIs and item search based on keyword was inaccurate.
