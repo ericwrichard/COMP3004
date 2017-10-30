@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.demo.grosavry.fragments.DbFragment">
+    tools:context="com.example.rong.grosavrydb.ItemDB">
 
     <EditText
         android:id="@+id/ItemName"
@@ -116,7 +116,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/RmvLoc" />
-
-
 
 </android.support.constraint.ConstraintLayout>

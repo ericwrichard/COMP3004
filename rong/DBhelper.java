@@ -1,4 +1,4 @@
-package com.demo.grosavry;
+package com.example.rong.grosavrydb;
 
 import android.content.ContentValues;
 import android.content.Context;
