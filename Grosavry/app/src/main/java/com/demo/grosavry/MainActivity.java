@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.demo.grosavry.R;
+import com.demo.grosavry.fragments.DbFragment;
 import com.demo.grosavry.fragments.OneFragment;
 import com.demo.grosavry.fragments.ThreeFragment;
 import com.demo.grosavry.fragments.TwoFragment;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new OneFragment(), "LOCATION");
         adapter.addFragment(new TwoFragment(), "RESULT");
+        adapter.addFragment(new DbFragment(), "LIST");
         //adapter.addFragment(new ThreeFragment(), "THREE");
         viewPager.setAdapter(adapter);
     }
