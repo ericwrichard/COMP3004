@@ -1,0 +1,1 @@
+﻿Started the creation of an Android Studio project. Discussed the different sections the app will need to function and to split up responsibilities.
