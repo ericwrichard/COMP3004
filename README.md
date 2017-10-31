@@ -1,2 +1,0 @@
-# COMP3004
-COMP3004 Project
