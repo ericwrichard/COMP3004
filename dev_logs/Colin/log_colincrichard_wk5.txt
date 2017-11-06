@@ -1,0 +1,1 @@
+﻿Started implementing key features of the app search as being able to find the user's location (Long and Lat). Using that info with google maps API to query for nearby grocery stores. (within a given radius).
