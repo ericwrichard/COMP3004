@@ -1,0 +1,13 @@
+-still having trouble with the data retrieving issue.
+	1. initial solution
+		-  get the item info/values via store website search
+		-  problems: only apply to the store with the search feature
+		   (There is no search for Farmboy, soebey and other stores)
+	2. new solution
+		-  get the item info from weekly flyers
+		   (since all the stores have weekly flyers)
+		-  difficulty: read data from flyers
+		-  a potential problem for items not in the flyers
+	3.  alternative Options left
+		-  Ask for help (TA)
+		-  Change the project
