@@ -41,8 +41,8 @@ public class ThreeFragment extends Fragment{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         shoppingList = new ArrayList<>();
-        Collections.addAll(shoppingList, "Eggs", "Yogurt", "Milk", "Bananas", "Apples", "Tide with bleach", "Cascade");
-        adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, shoppingList);
+        Collections.addAll(shoppingList, "Eggs", "Yogurt", "Milk", "Bananas", "Apples");
+        adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_item_black, R.id.list_content, shoppingList);
         lv = getView().findViewById(R.id.list_view);
         lv.setAdapter(adapter);
     }

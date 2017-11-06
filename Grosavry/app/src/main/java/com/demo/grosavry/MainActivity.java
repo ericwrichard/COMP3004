@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         //adapter.addFragment(new OneFragment(), "LOCATION");
         //adapter.addFragment(new TwoFragment(), "RESULT");
         dbfrag = new DbFragment();
-        adapter.addFragment(dbfrag, "DB");
+        //adapter.addFragment(dbfrag, "DB");
         adapter.addFragment(new ThreeFragment(), "THREE");
         viewPager.setAdapter(adapter);
     }
