@@ -13,7 +13,6 @@ import com.demo.grosavry.R;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import android.view.View;
 
 public class ThreeFragment extends Fragment{
 
@@ -44,7 +43,8 @@ public class ThreeFragment extends Fragment{
         shoppingList = new ArrayList<>();
         Collections.addAll(shoppingList, "Eggs", "Yogurt", "Milk", "Bananas", "Apples", "Tide with bleach", "Cascade");
         adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, shoppingList);
-        lv = (ListView) getView().findViewById(R.id.list_view);
+        lv = getView().findViewById(R.id.list_view);
+        lv.setAdapter(adapter);
     }
 
 }

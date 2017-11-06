@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new OneFragment(), "LOCATION");
-        adapter.addFragment(new TwoFragment(), "RESULT");
+        //adapter.addFragment(new OneFragment(), "LOCATION");
+        //adapter.addFragment(new TwoFragment(), "RESULT");
         dbfrag = new DbFragment();
         adapter.addFragment(dbfrag, "DB");
         adapter.addFragment(new ThreeFragment(), "THREE");

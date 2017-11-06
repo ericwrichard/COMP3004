@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 import android.view.ContextThemeWrapper;
 
@@ -26,10 +27,12 @@ import com.demo.grosavry.DBhelper;
 import com.demo.grosavry.R;
 import com.demo.grosavry.Stores;
 
+import java.util.HashMap;
+
 public class DbFragment extends Fragment {
     public DBhelper myDb;
     EditText editItem, editQty, editLoc;
-    Button btnAddItem, btnRmvItem, btnViewItem, btnAddLoc, btnRmvLoc, btnViewLoc, btnTotal;
+    Button btnAddItem, btnRmvItem, btnViewItem, btnAddLoc, btnRmvLoc, btnViewLoc, btnSearchLoc, btnTotal;
 
     String googleKey = "AIzaSyAQLSXt0c-M-meCzCbrOLp8dhdD1gYVqp8";
     static final int REQUEST_LOCATION = 1;
@@ -40,6 +43,7 @@ public class DbFragment extends Fragment {
     boolean nearFarmboy = false;
     boolean nearFrescho = false;
     boolean nearLoblaws = false;
+    View currentView = null;
 
     public DbFragment() {
         // Required empty public constructor
@@ -65,6 +69,7 @@ public class DbFragment extends Fragment {
         // or  (ImageView) view.findViewById(R.id.foo);
 
         //setContentView(R.layout.activity_item_db);
+        currentView = view;
 
         editItem = (EditText)view.findViewById(R.id.ItemName);
         editQty = (EditText)view.findViewById(R.id.ItemQty);
@@ -77,6 +82,7 @@ public class DbFragment extends Fragment {
         btnAddLoc = (Button)view.findViewById(R.id.AddLoc);
         btnViewLoc = (Button)view.findViewById(R.id.ViewLoc);
         btnRmvLoc = (Button)view.findViewById(R.id.RmvLoc);
+        btnSearchLoc = (Button) view.findViewById(R.id.SearchLoc);
 
         btnTotal = (Button)view.findViewById(R.id.Total);
 
@@ -90,9 +96,11 @@ public class DbFragment extends Fragment {
         RmvAllItem();
         RmvAllLoc();
 
+        SearchLoc();
+
         ViewTotal();
 
-        callLocation();
+        //callLocation();
     }
 
     public  void AddItem() {
@@ -184,6 +192,8 @@ public class DbFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
+
                         Cursor res = myDb.getAllLoc();
                         if (res.getCount() == 0) {
                             //Toast.makeText(ItemDB.this, "No item in the list", Toast.LENGTH_LONG).show();
@@ -199,6 +209,18 @@ public class DbFragment extends Fragment {
                         showInfo("Location", buffer.toString());
                     }
                 }
+        );
+    }
+
+    public void SearchLoc() {
+        btnSearchLoc.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        myDb.rmvAllLoc(); // reset locations
+                        callLocation(); // insert new locations
+                    }
+        }
         );
     }
 
@@ -255,12 +277,34 @@ public class DbFragment extends Fragment {
                 double lat = location.getLatitude();
                 double longi = location.getLongitude();
 
+                Spinner radius_spinner = (Spinner) currentView.findViewById(R.id.RadiusSpinner);
+                String selected_radius = radius_spinner.getSelectedItem().toString();
+
+                HashMap<String, String> radius_conversion = new HashMap<>();
+
+                radius_conversion.put("2km", "2000");
+                radius_conversion.put("5km", "5000");
+                radius_conversion.put("10km", "10000");
+                radius_conversion.put("20km", "20000");
+                radius_conversion.put("30km", "30000");
+
+                String current_radius = radius_conversion.get(selected_radius);
+                Log.d("Error:", selected_radius);
+
+                String uWalmart = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + longi + "&radius=" + current_radius + "&name=walmart&key=" + googleKey;
+                String uLoblaws = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + longi + "&radius=" + current_radius + "&name=loblaws&key=" + googleKey;
+                String uFarmboy = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + longi + "&radius=" + current_radius + "&name=farmboy&key=" + googleKey;
+                String uFreshco = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + longi + "&radius=" + current_radius +  "&name=freshco&key=" + googleKey;
+                String uSobeys = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + longi + "&radius=" + current_radius +  "&name=sobeys&key=" + googleKey;
+
+                Log.d("Error", uWalmart);
+                /*
                 String uWalmart = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + longi + "&radius=5000&name=walmart&key=" + googleKey;
                 String uLoblaws = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + longi + "&radius=100&name=loblaws&key=" + googleKey;
                 String uFarmboy = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + longi + "&radius=100&name=farmboy&key=" + googleKey;
                 String uFreshco = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + longi + "&radius=100&name=freshco&key=" + googleKey;
                 String uSobeys = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + longi + "&radius=30&name=sobeys&key=" + googleKey;
-
+                */
 
                 Stores walmart = (Stores) new Stores(new Stores.StoreResponse() {
                     @Override
