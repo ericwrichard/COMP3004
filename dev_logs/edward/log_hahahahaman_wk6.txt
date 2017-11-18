@@ -1,0 +1,2 @@
+-
+ Created fragments to store different views for the application

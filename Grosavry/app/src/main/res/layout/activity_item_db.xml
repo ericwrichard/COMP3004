@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/ItemName" />
 
     <Button
-        android:id="@+id/AddItem"
+        android:id="@+id/AddItemBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -50,7 +50,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="Remove"
-        app:layout_constraintStart_toEndOf="@+id/AddItem"
+        app:layout_constraintStart_toEndOf="@+id/AddItemBtn"
         app:layout_constraintTop_toBottomOf="@+id/ItemQty" />
 
     <Button

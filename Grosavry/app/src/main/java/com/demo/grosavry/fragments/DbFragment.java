@@ -17,20 +17,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.view.ContextThemeWrapper;
 
 import com.demo.grosavry.DBhelper;
 //import com.demo.grosavry.ItemDB;
+import com.demo.grosavry.DatabaseSingleton;
 import com.demo.grosavry.R;
 import com.demo.grosavry.Stores;
 
 import java.util.HashMap;
 
 public class DbFragment extends Fragment {
-    public DBhelper myDb;
+    private DBhelper myDb;
     EditText editItem, editQty, editLoc;
     Button btnAddItem, btnRmvItem, btnViewItem, btnAddLoc, btnRmvLoc, btnViewLoc, btnSearchLoc, btnTotal;
 
@@ -52,7 +51,7 @@ public class DbFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        myDb = new DBhelper(getActivity().getApplicationContext());
+        myDb = DatabaseSingleton.getInstance().getDatabase();
     }
 
     @Override
@@ -75,7 +74,7 @@ public class DbFragment extends Fragment {
         editQty = (EditText)view.findViewById(R.id.ItemQty);
         editLoc = (EditText)view.findViewById(R.id.LocationName);
 
-        btnAddItem = (Button)view.findViewById(R.id.AddItem);
+        btnAddItem = (Button)view.findViewById(R.id.AddItemBtn);
         btnViewItem = (Button)view.findViewById(R.id.ViewItem);
         btnRmvItem = (Button)view.findViewById(R.id.DeleteItem);
 

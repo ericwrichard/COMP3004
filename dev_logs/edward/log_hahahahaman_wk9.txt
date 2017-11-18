@@ -1,0 +1,2 @@
+- refactor the code so there is less coupling.
+- improve the UI a bit

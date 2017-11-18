@@ -1,0 +1,1 @@
+- Integrate UI, location and database together.
