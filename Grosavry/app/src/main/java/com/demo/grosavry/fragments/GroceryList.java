@@ -1,5 +1,6 @@
 package com.demo.grosavry.fragments;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -93,25 +95,37 @@ public class GroceryList extends Fragment{
                     @Override
                     public void onClick(View view) {
 
+                        Context context = getActivity().getApplicationContext();
+
+                        LinearLayout layout = new LinearLayout(context);
+                        layout.setOrientation(LinearLayout.VERTICAL);
+
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogStyle);
                         builder.setTitle("Add Item");
 
-                        // Set up the input
-                        final EditText input = new EditText(getContext().getApplicationContext());
 
+
+                        // Set up the input
+                        final EditText itemName = new EditText(context);
                         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                        input.setInputType(InputType.TYPE_CLASS_TEXT);
-                        builder.setView(input);
+                        itemName.setInputType(InputType.TYPE_CLASS_TEXT);
+                        itemName.setHint("Item");
+                        layout.addView(itemName);
+
+                        final EditText itemQty = new EditText(context);
+                        itemQty.setHint("Quantity");
+                        layout.addView(itemQty);
+
+                        builder.setView(layout);
 
                         // Set up the buttons
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                boolean isInserted = database.addItem(input.getText().toString(), "1");
-                                        //editQty.getText().toString());
+                                boolean isInserted = database.addItem(itemName.getText().toString(), itemQty.getText().toString());
                                 if (isInserted == true) {
                                     Toast.makeText(getActivity().getApplicationContext(), "Item Added", Toast.LENGTH_LONG).show();
-                                    shoppingList.add(input.getText().toString()+ " - " + "1");
+                                    shoppingList.add(itemName.getText().toString()+ " - " + itemQty.getText().toString());
                                 }
                                 else
                                     Toast.makeText(getActivity().getApplicationContext(), "Item Add failed!", Toast.LENGTH_LONG).show();
@@ -125,8 +139,6 @@ public class GroceryList extends Fragment{
                         });
 
                         builder.show();
-
-
 
                     }
                 }
