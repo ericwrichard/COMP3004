@@ -1,1 +1,3 @@
-- started development on the User Inferface part of the application
+- Developed some parts of the user interface: searching for address,
+  drop down menu for distance selection, add item, and button layout.
+  5 hours.

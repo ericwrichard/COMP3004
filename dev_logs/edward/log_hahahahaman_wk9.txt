@@ -1,2 +1,7 @@
-- refactor the code so there is less coupling.
-- improve the UI a bit
+- Refactor the code so there is less coupling. Pulled the database
+  and location functions out of DbFragment and put them into
+  individual singleton classes. Time spent 4 hours.
+
+- Improved the UI action bar with new icons, add splash screen. 3
+  hours.
+

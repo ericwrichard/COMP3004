@@ -1,1 +1,5 @@
-- researched grocery store APIs to use for data in the application
+- Continued looking at different APIs that compile the data of
+  multiple grocery stores together. Not much progress. 2 hours.
+
+- Met with team to discuss aspects of the app. What features needed
+  to be done. 1 hour.

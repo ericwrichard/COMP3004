@@ -1,2 +1,8 @@
--
- Created fragments to store different views for the application
+- Created fragments to store different views for the application,
+  this is a simple way for the user to change views for different
+  things in the application, and I can experiment with how the user
+  interacts with different kinds of information. 3 hours.
+
+- Met with group discussed progress and possible new features, such
+  as smart search, different categories, and perhaps more things from
+  the google maps api. 2 hours.

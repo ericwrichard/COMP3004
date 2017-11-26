@@ -1,0 +1,3 @@
+- Polish up all the interface, remove some unnecessary buttons. Fix
+  up result page. Allow user to click items of the list view to
+  update the database. 5 hours.

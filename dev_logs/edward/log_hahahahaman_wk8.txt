@@ -1,1 +1,4 @@
-- Integrate UI, location and database together.
+- Continued integrating UI, location and database together. Testing
+  out all the features to see if they still work. Spent a lot of time
+  debugging trying to figure out how to intialize objects before they
+  are called by some part of the application. 5 hours.

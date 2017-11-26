@@ -18,6 +18,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -42,12 +44,15 @@ public class MainActivity extends AppCompatActivity {
 
     private DBhelper database = null;
 
+    private GroceryList gl = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         database = new DBhelper(this);
+        //database.onUpgrade(database.getWritableDatabase(), 0, 1);
         DatabaseSingleton.setDatabase(database);
         LocationSingleton.setDatabase(database);
         LocationSingleton.setActivity(this);
@@ -62,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
     }
 
     @Override
@@ -76,6 +82,38 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.actionbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                return true;
+
+            case R.id.action_add:
+
+                // something like
+                // grocerylist.addItem();
+                gl.getItemData();
+                return true;
+
+            case R.id.action_total:
+                gl.getTotal();
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
     private void setupViewPager(ViewPager viewPager) {
 
 
@@ -83,9 +121,14 @@ public class MainActivity extends AppCompatActivity {
         //adapter.addFragment(new OneFragment(), "LOCATION");
         //adapter.addFragment(new TwoFragment(), "RESULT");
         //dbfrag = new DbFragment();
-        //adapter.addFragment(dbfrag, "DB");
+        //adapter.addFragment(new DbFragment(), "DB");
         // adapter.addFragment(new ThreeFragment(), "THREE");
-        adapter.addFragment(new GroceryList(), "LIST");
+
+        gl = new GroceryList();
+
+        adapter.addFragment(gl, "LIST");
+        adapter.addFragment(new OneFragment(), "RESULTS");
+        adapter.addFragment(new TwoFragment(), "MAP");
         viewPager.setAdapter(adapter);
     }
 

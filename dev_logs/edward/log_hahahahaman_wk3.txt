@@ -1,1 +1,6 @@
-- built prototype Java program to fetch item data from web pages
+- Found that Loblaws and Walmart have data on their websites. Built a
+  prototype Java application that can scrape data from the sites. 4 hours.
+
+- Met with team. We still don't have a good general solution to
+  getting store information. Only Lowblaws and Walmart is not
+  particularly useful for a price comparison app. 1 hour.

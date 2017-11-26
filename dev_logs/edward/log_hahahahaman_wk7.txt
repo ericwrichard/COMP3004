@@ -1,1 +1,8 @@
-- Testing out list view on the Grocery list fragment
+- Testing out different kinds of views for the grocery list fragment.
+  The list view seems the most reasonable for the application. Trying
+  out different things for the results, currently it is an dialog
+  alert, whose text is small and may be difficult to read. 4 hours.
+
+- Integrate some aspects of databases and google maps from other team
+  mates. 3 hours.
+

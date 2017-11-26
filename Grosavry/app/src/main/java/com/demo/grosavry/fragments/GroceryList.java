@@ -95,54 +95,59 @@ public class GroceryList extends Fragment{
                     @Override
                     public void onClick(View view) {
 
-                        Context context = getActivity().getApplicationContext();
-
-                        LinearLayout layout = new LinearLayout(context);
-                        layout.setOrientation(LinearLayout.VERTICAL);
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogStyle);
-                        builder.setTitle("Add Item");
-
-
-
-                        // Set up the input
-                        final EditText itemName = new EditText(context);
-                        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                        itemName.setInputType(InputType.TYPE_CLASS_TEXT);
-                        itemName.setHint("Item");
-                        layout.addView(itemName);
-
-                        final EditText itemQty = new EditText(context);
-                        itemQty.setHint("Quantity");
-                        layout.addView(itemQty);
-
-                        builder.setView(layout);
-
-                        // Set up the buttons
-                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                boolean isInserted = database.addItem(itemName.getText().toString(), itemQty.getText().toString());
-                                if (isInserted == true) {
-                                    Toast.makeText(getActivity().getApplicationContext(), "Item Added", Toast.LENGTH_LONG).show();
-                                    shoppingList.add(itemName.getText().toString()+ " - " + itemQty.getText().toString());
-                                }
-                                else
-                                    Toast.makeText(getActivity().getApplicationContext(), "Item Add failed!", Toast.LENGTH_LONG).show();
-                            }
-                        });
-                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-
-                        builder.show();
+                        getItemData();
 
                     }
                 }
         );
+    }
+
+    public void getItemData(){
+        Context context = getActivity().getApplicationContext();
+
+        LinearLayout layout = new LinearLayout(context);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogStyle);
+        builder.setTitle("Add Item");
+
+        // Set up the input
+        final EditText itemName = new EditText(context);
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        itemName.setInputType(InputType.TYPE_CLASS_TEXT);
+        itemName.setHint("Item");
+        layout.addView(itemName);
+
+        final EditText itemQty = new EditText(context);
+        itemQty.setInputType(InputType.TYPE_CLASS_NUMBER);
+        itemQty.setHint("Quantity");
+        itemQty.setText("1");
+        layout.addView(itemQty);
+
+        builder.setView(layout);
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                boolean isInserted = database.addItem(itemName.getText().toString(), itemQty.getText().toString());
+                if (isInserted == true) {
+                    Toast.makeText(getActivity().getApplicationContext(), "Item Added", Toast.LENGTH_LONG).show();
+                    shoppingList.add(itemName.getText().toString()+ " - " + itemQty.getText().toString());
+                    adapter.notifyDataSetChanged();
+                }
+                else
+                    Toast.makeText(getActivity().getApplicationContext(), "Item Add failed!", Toast.LENGTH_LONG).show();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     /*
@@ -172,9 +177,13 @@ public class GroceryList extends Fragment{
                         Toast.makeText(getActivity().getApplicationContext(), "All Items Rrmoved", Toast.LENGTH_LONG).show();
 
                         shoppingList.clear();
+
+                        adapter.notifyDataSetChanged();
+                        /*
                         adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_item_black, R.id.list_content, shoppingList);
                         lv = getView().findViewById(R.id.list_view);
                         lv.setAdapter(adapter);
+                        */
                     }
                 }
         );
@@ -265,23 +274,27 @@ public class GroceryList extends Fragment{
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Cursor res = database.getTotal();
-                        if (res.getCount() == 0) {
-                            //Toast.makeText(ItemDB.this, "No item in the list", Toast.LENGTH_LONG).show();
-                            showInfo("Error", "Nothing Found");
-                            return ;
-                        }
-                        StringBuffer buffer = new StringBuffer();
-                        while (res.moveToNext()) {
-                            buffer.append("Place: "+ res.getString(0)+ "\n");
-                            buffer.append("Price: "+ res.getString(1)+ "\n\n");
-                        }
-
-                        // show all the items
-                        showInfo("Total Price", buffer.toString());
+                    getTotal();
                     }
                 }
         );
+    }
+
+    public void getTotal(){
+        Cursor res = database.getTotal();
+        if (res.getCount() == 0) {
+            //Toast.makeText(ItemDB.this, "No item in the list", Toast.LENGTH_LONG).show();
+            showInfo("Error", "Nothing Found");
+            return ;
+        }
+        StringBuffer buffer = new StringBuffer();
+        while (res.moveToNext()) {
+            buffer.append("Place: "+ res.getString(0)+ "\n");
+            buffer.append("Price: "+ res.getString(1)+ "\n\n");
+        }
+
+        // show all the items
+        showInfo("Total Price", buffer.toString());
     }
 
 }

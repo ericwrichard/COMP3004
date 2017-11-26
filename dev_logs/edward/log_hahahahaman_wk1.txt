@@ -1,2 +1,5 @@
-- met with group for presentation.
-- did the presentation.
+- Met with group to discuss project ideas. Decided on grocery price
+  comparison app. 2 hours.
+
+- Researched how to get data from grocery stores. 2 hours.
+
