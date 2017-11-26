@@ -22,6 +22,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +89,23 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.actionbar, menu);
+
+        /*
+        ImageView addBtn = (ImageView) menu.findItem(R.id.action_add).getActionView();
+
+        if(addBtn != null){
+            addBtn.setScaleX(0.0f);
+            addBtn.setScaleY(0.0f);
+            addBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Animation scaling = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scaler);
+                    view.startAnimation(scaling);
+                }
+            });
+        }
+        */
+
         return true;
     }
 
@@ -97,9 +117,8 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.action_add:
 
-                // something like
-                // grocerylist.addItem();
                 gl.getItemData();
+
                 return true;
 
             case R.id.action_total:

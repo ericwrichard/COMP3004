@@ -174,7 +174,7 @@ public class GroceryList extends Fragment{
                     @Override
                     public void onClick(View view) {
                         database.rmvAll();
-                        Toast.makeText(getActivity().getApplicationContext(), "All Items Rrmoved", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity().getApplicationContext(), "All Items Removed", Toast.LENGTH_LONG).show();
 
                         shoppingList.clear();
 
