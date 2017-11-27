@@ -2,3 +2,5 @@ Group Meeting (2 hours)
 -Polishing
 -Debugging 
 -Minor Changes
+
+- more research on how to retreiving data from stores(1 hours)
