@@ -79,14 +79,16 @@ public class GroceryList extends Fragment{
         lv = getView().findViewById(R.id.results_view);
         lv.setAdapter(adapter);
 
+        /*
         btnAddItem = (Button)view.findViewById(R.id.AddItemBtn);
         btnRmvItem = (Button)view.findViewById(R.id.RemoveAllBtn);
         btnSearchLoc = (Button) view.findViewById(R.id.SearchBtn);
-        btnTotal = (Button)view.findViewById(R.id.TotalBtn);
+        //btnTotal = (Button)view.findViewById(R.id.TotalBtn);
         //AddItem();
         RmvAllItem();
         SearchLoc();
         ViewTotal();
+        */
     }
 
     private void AddItem() {
