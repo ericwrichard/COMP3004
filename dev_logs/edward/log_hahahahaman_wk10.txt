@@ -1,4 +1,5 @@
 - Polish up all the interface, remove some unnecessary buttons. Fix
   up result page. Allow user to click items of the list view to
   update the database. Fix up database so that everything stored is
-  lowercase and essentially case insensitive. 5 hours.
+  lowercase and essentially case insensitive. Add loading screen for
+  search. Added radio buttons for radius on new action bar. 10 hours.
