@@ -15,11 +15,35 @@
 
     <style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <!-- Used for the buttons -->
-        <item name="colorAccent">#FFC107</item>
+        <item name="colorAccent">#EEEEEE</item>
         <!-- Used for the title and text -->
         <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColorAlertDialogListItem">@color/white</item>
+        <item name="textColorAlertDialogListItem">@color/white</item>
         <!-- Used for the background -->
         <item name="android:background">#4CAF50</item>
+        <item name="android:textColorHint">@color/colorHint</item>
+    </style>
+
+    <style name="ProgressDialogStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:alertDialogStyle">@style/CustomProgressStyle</item>
+        <item name="android:windowBackground">@color/green</item>
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="CustomProgressStyle">
+        <item name="android:bottomBright">@color/green</item>
+        <item name="android:bottomDark">@color/green</item>
+        <item name="android:bottomMedium">@color/green</item>
+        <item name="android:centerBright">@color/green</item>
+        <item name="android:centerDark">@color/green</item>
+        <item name="android:centerMedium">@color/green</item>
+        <item name="android:fullBright">@color/green</item>
+        <item name="android:fullDark">@color/green</item>
+        <item name="android:topBright">@color/green</item>
+        <item name="android:topDark">@color/green</item>
     </style>
 
     <style name="ListStyle" parent="MaterialTheme.Base">

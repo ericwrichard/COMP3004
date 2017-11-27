@@ -33,8 +33,15 @@ import com.demo.grosavry.R;
 import com.demo.grosavry.fragments.DbFragment;
 import com.demo.grosavry.fragments.GroceryList;
 import com.demo.grosavry.fragments.OneFragment;
+import com.demo.grosavry.fragments.Results;
 import com.demo.grosavry.fragments.ThreeFragment;
 import com.demo.grosavry.fragments.TwoFragment;
+
+    /*
+        results page
+
+        loading screen
+     */
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private DBhelper database = null;
 
     private GroceryList gl = null;
+    private Results results = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,32 +87,26 @@ public class MainActivity extends AppCompatActivity {
 
         switch (requestCode) {
             case LocationSingleton.REQUEST_LOCATION:
-                // TODO distance interface
-                LocationSingleton.getInstance().getLocation("2km");
+                LocationSingleton.getInstance().getLocation(LocationSingleton.radius);
                 break;
         }
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        gl = new GroceryList();
+        results = new Results();
+
+        adapter.addFragment(gl, "LIST");
+        adapter.addFragment(results, "RESULTS");
+        viewPager.setAdapter(adapter);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.actionbar, menu);
-
-        /*
-        ImageView addBtn = (ImageView) menu.findItem(R.id.action_add).getActionView();
-
-        if(addBtn != null){
-            addBtn.setScaleX(0.0f);
-            addBtn.setScaleY(0.0f);
-            addBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Animation scaling = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scaler);
-                    view.startAnimation(scaling);
-                }
-            });
-        }
-        */
 
         return true;
     }
@@ -113,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
+
+                gl.setRadius();
                 return true;
 
             case R.id.action_add:
@@ -122,7 +126,24 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_total:
-                gl.getTotal();
+                //gl.getTotal();
+
+
+                if(LocationSingleton.radiusChanged){
+                    database.rmvAllLoc();
+                    LocationSingleton.callLocation(LocationSingleton.radius);
+                    LocationSingleton.radiusChanged = false;
+                }
+
+                //results.updateResults(database.getTotal());
+
+                // switch tabs
+                TabLayout tabs = (TabLayout) this.findViewById(R.id.tabs);
+
+                tabs.getTabAt(1).select();
+
+                // Search in given radius
+
                 return true;
 
             default:
@@ -133,23 +154,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-
-
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        //adapter.addFragment(new OneFragment(), "LOCATION");
-        //adapter.addFragment(new TwoFragment(), "RESULT");
-        //dbfrag = new DbFragment();
-        //adapter.addFragment(new DbFragment(), "DB");
-        // adapter.addFragment(new ThreeFragment(), "THREE");
-
-        gl = new GroceryList();
-
-        adapter.addFragment(gl, "LIST");
-        adapter.addFragment(new OneFragment(), "RESULTS");
-        adapter.addFragment(new TwoFragment(), "MAP");
-        viewPager.setAdapter(adapter);
-    }
 
 
 

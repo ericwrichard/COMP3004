@@ -2,6 +2,7 @@ package com.demo.grosavry;
 
 
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import java.net.URL;
 
 public class Stores extends AsyncTask<String, String, String > {
 
+    private ProgressDialog pd;
     public interface StoreResponse {
         void finishedResult(String result);
     }
@@ -24,6 +26,15 @@ public class Stores extends AsyncTask<String, String, String > {
 
     public Stores(StoreResponse s) {
         this.s = s;
+    }
+
+    @Override
+    protected void onPreExecute(){
+        pd = new ProgressDialog(LocationSingleton.activity, R.style.ProgressDialogStyle);
+        pd.setTitle("Searching in " + LocationSingleton.radius + " radius.");
+        pd.setMessage("Please wait...");
+
+        pd.show();
     }
 
     @Override
@@ -109,6 +120,8 @@ public class Stores extends AsyncTask<String, String, String > {
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
         s.finishedResult(result);
+        pd.dismiss();
+        DatabaseSingleton.updateResults(DatabaseSingleton.getDatabase().getTotal());
     }
 
 }

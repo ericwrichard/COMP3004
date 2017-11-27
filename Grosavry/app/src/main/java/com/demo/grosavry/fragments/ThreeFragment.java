@@ -43,7 +43,7 @@ public class ThreeFragment extends Fragment{
         shoppingList = new ArrayList<>();
         Collections.addAll(shoppingList, "Eggs", "Yogurt", "Milk", "Bananas", "Apples");
         adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_item_black, R.id.list_content, shoppingList);
-        lv = getView().findViewById(R.id.list_view);
+        lv = getView().findViewById(R.id.results_view);
         lv.setAdapter(adapter);
     }
 
