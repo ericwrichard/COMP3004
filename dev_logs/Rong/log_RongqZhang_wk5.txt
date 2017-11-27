@@ -1,3 +1,4 @@
+Group Meeting(2+ hours) 
 Responsible parts: Database
 	-still having trouble with the data retrieving issue.
 	-temporary solution: using dummy data for the demo
@@ -7,4 +8,4 @@ Responsible parts: Database
 		table 1: item table (all items with associated info price etc.)
 		table 2: location (store location info: address, open hours later on)
 		table 3: relational table (for mapping item table with store location)
-	- calculating the total for each store using relational algebra
+	- calculating the total for each store using relational algebra (incomplete)  (9 hours)
