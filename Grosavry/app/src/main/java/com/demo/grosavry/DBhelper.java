@@ -354,10 +354,16 @@ public class DBhelper extends SQLiteOpenHelper {
     public boolean addItem(String name, String qty){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+
         values.put(ATR_1, name.toLowerCase());
         values.put(ATR_2, Integer.parseInt(qty));
 
-        long result = db.insert(TABLE_NAME2,null,values);
+        long result = db.update(TABLE_NAME2,values,"NAME = ?", new String[]{name});
+
+        if (result > 0) return true;
+
+        result = db.insert(TABLE_NAME2,null,values);
+
         if (result == -1)
             return false;
         else

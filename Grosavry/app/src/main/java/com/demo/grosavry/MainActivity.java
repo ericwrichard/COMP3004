@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         //adapter.addFragment(new OneFragment(), "LOCATION");
         //adapter.addFragment(new TwoFragment(), "RESULT");
         //dbfrag = new DbFragment();
-        //adapter.addFragment(new DbFragment(), "DB");
+        adapter.addFragment(new DbFragment(), "DB");
         // adapter.addFragment(new ThreeFragment(), "THREE");
 
         gl = new GroceryList();
