@@ -1,3 +1,4 @@
+Group Meeting: (2 hours)
 -still having trouble with the data retrieving issue.
 	1. initial solution
 		-  get the item info/values via store website search
@@ -11,3 +12,8 @@
 	3.  alternative Options left
 		-  Ask for help (TA)
 		-  Change the project
+		
+-did some research to find a way to get the data from flyers.
+-Found some interesting App and website that has the feature.
+-Found out that the problem is over too complicated
+-Decided to use SQlite to build the Database. Self-Learning Youtbe tutorials (6 hours)
