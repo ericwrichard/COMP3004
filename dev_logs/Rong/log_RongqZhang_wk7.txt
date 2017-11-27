@@ -1,0 +1,4 @@
+Group Meeting(2 hours)
+  - Polishing 
+  - More Features
+  - Minor change + Debugging
