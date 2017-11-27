@@ -1,2 +1,6 @@
+Group Meeting:(1 hour)
 -Discussed the project in details (Functionality and Features)
 -split the work
+-responsible part 
+  [Database]
+- Did some reserach and figure out what and how to create the database (3 hours)
