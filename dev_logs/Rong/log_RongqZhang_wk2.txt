@@ -1,5 +1,8 @@
+Group Meeting: (2 hours)
 - During the meeting, we discussed how to develop/create the main feature of our app (mainly how to get infos from different stores' website)
     -difficulties we need to face
     -what kind of technologies to use
     -an effective way to achieve that feature
--By the end of the meeting, we all agree on to do more research and find an effective way to solve this problem. 
+-By the end of the meeting, we all agree on to do more research and find an effective way to solve this problem.
+
+- extra research (alternative way to solve the problem) (1 hours)
