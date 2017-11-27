@@ -1,1 +1,2 @@
-Minor changes + Added more items to the database (1 hours)
+- Minor changes + Added more items to the database 
+- more research on data retrieving  (2 hours)
