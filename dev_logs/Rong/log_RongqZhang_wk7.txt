@@ -1,4 +1,1 @@
-Group Meeting(2 hours)
-  - Polishing 
-  - More Features
-  - Minor change + Debugging
+Minor changes + Added more items to the database (1 hours)
