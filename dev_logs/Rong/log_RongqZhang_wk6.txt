@@ -5,4 +5,5 @@ Group Meeting: (2 hours)
 - Figure out how to improve the app
 - new operations for database
 - minor change for database
-- debugging   (1 hour)
+- debugging
+- more research on data retrieving(2 hours)
