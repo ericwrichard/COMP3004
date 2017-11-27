@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +24,9 @@ import com.demo.grosavry.LocationSingleton;
 import com.demo.grosavry.R;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import java.lang.String;
+import java.util.List;
 
 public class GroceryList extends Fragment{
 
@@ -75,18 +76,19 @@ public class GroceryList extends Fragment{
 
         //Collections.addAll(shoppingList, "Eggs", "Yogurt", "Milk", "Bananas", "Apples", "Eggs", "Yogurt", "Milk", "Bananas", "Apples");
         adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_item_black, R.id.list_content, shoppingList);
-        lv = getView().findViewById(R.id.list_view);
+        lv = getView().findViewById(R.id.results_view);
         lv.setAdapter(adapter);
 
+        /*
         btnAddItem = (Button)view.findViewById(R.id.AddItemBtn);
         btnRmvItem = (Button)view.findViewById(R.id.RemoveAllBtn);
         btnSearchLoc = (Button) view.findViewById(R.id.SearchBtn);
-        btnTotal = (Button)view.findViewById(R.id.TotalBtn);
-
-        AddItem();
+        //btnTotal = (Button)view.findViewById(R.id.TotalBtn);
+        //AddItem();
         RmvAllItem();
         SearchLoc();
         ViewTotal();
+        */
     }
 
     private void AddItem() {
@@ -94,7 +96,6 @@ public class GroceryList extends Fragment{
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
                         getItemData();
 
                     }
@@ -116,12 +117,13 @@ public class GroceryList extends Fragment{
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         itemName.setInputType(InputType.TYPE_CLASS_TEXT);
         itemName.setHint("Item");
+        itemName.setHintTextColor(getResources().getColor(R.color.colorHint));
         layout.addView(itemName);
 
         final EditText itemQty = new EditText(context);
         itemQty.setInputType(InputType.TYPE_CLASS_NUMBER);
         itemQty.setHint("Quantity");
-        itemQty.setText("1");
+        itemQty.setHintTextColor(getResources().getColor(R.color.colorHint));
         layout.addView(itemQty);
 
         builder.setView(layout);
@@ -130,10 +132,14 @@ public class GroceryList extends Fragment{
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                boolean isInserted = database.addItem(itemName.getText().toString(), itemQty.getText().toString());
+                String itemNameText = itemName.getText().toString();
+                String itemQtyText = itemQty.getText().toString();
+                if(!itemQtyText.matches("\\d+")) itemQtyText = "1"; // check that quantity is an integer
+
+                boolean isInserted = database.addItem(itemNameText, itemQtyText);
                 if (isInserted == true) {
                     Toast.makeText(getActivity().getApplicationContext(), "Item Added", Toast.LENGTH_LONG).show();
-                    shoppingList.add(itemName.getText().toString()+ " - " + itemQty.getText().toString());
+                    shoppingList.add(itemNameText + "  -  " + itemQtyText);
                     adapter.notifyDataSetChanged();
                 }
                 else
@@ -149,24 +155,6 @@ public class GroceryList extends Fragment{
 
         builder.show();
     }
-
-    /*
-    public  void AddLoc() {
-        btnAddLoc.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        boolean isInserted = database.addLoc(editLoc.getText().toString());
-                        if (isInserted == true)
-                            Toast.makeText(getActivity().getApplicationContext(), "Location Added", Toast.LENGTH_LONG).show();
-                        else
-                            Toast.makeText(getActivity().getApplicationContext(), "Location Add failed!", Toast.LENGTH_LONG).show();
-
-                    }
-                }
-        );
-    }
-    */
 
     private void RmvAllItem() {
         btnRmvItem.setOnClickListener(
@@ -189,81 +177,13 @@ public class GroceryList extends Fragment{
         );
     }
 
-    /*
-    public  void RmvAllLoc() {
-        btnRmvLoc.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        database.rmvAllLoc();
-                        Toast.makeText(getActivity().getApplicationContext(), "All Locations Removed", Toast.LENGTH_LONG).show();
-
-
-                    }
-                }
-        );
-    }
-    */
-
-    /*
-    public void ViewItem() {
-        btnViewItem.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Cursor res = myDb.getAllItem();
-                        if (res.getCount() == 0) {
-                            //Toast.makeText(ItemDB.this, "No item in the list", Toast.LENGTH_LONG).show();
-                            showInfo("Error", "Nothing Found");
-                            return ;
-                        }
-                        StringBuffer buffer = new StringBuffer();
-                        while (res.moveToNext()) {
-                            buffer.append("ItemName: "+ res.getString(0));
-                            buffer.append(" Quantity: " + res.getString(1)+ "\n");
-                        }
-
-                        // show all the items
-                        showInfo("Data", buffer.toString());
-                    }
-                }
-        );
-    }
-
-    public void ViewLoc() {
-        btnViewLoc.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-
-                        Cursor res = myDb.getAllLoc();
-                        if (res.getCount() == 0) {
-                            //Toast.makeText(ItemDB.this, "No item in the list", Toast.LENGTH_LONG).show();
-                            showInfo("Error", "Nothing Found");
-                            return ;
-                        }
-                        StringBuffer buffer = new StringBuffer();
-                        while (res.moveToNext()) {
-                            buffer.append("Location: "+ res.getString(0)+ "\n");
-                        }
-
-                        // show all the items
-                        showInfo("Location", buffer.toString());
-                    }
-                }
-        );
-    }
-    */
-
     private void SearchLoc() {
         btnSearchLoc.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         database.rmvAllLoc(); // reset locations
-                        // TODO
-                        LocationSingleton.callLocation("10km"); // insert new locations
+                        LocationSingleton.callLocation(LocationSingleton.radius); // insert new locations
                     }
                 }
         );
@@ -295,6 +215,52 @@ public class GroceryList extends Fragment{
 
         // show all the items
         showInfo("Total Price", buffer.toString());
+    }
+
+    public void setRadius(){
+
+        final List<String> radiusList = new ArrayList<>();
+
+        radiusList.add("2km");
+        radiusList.add("5km");
+        radiusList.add("10km");
+        radiusList.add("20km");
+        radiusList.add("30km");
+
+        int checkedItem = -1;
+        for(int i = 0; i < radiusList.size(); i++) {
+            if (radiusList.get(i).equals(LocationSingleton.radius)) {
+                checkedItem = i;
+                Log.d("Error: ", "Checked Item " + i);
+                break;
+            }
+        }
+
+        final Context context = getActivity().getApplicationContext();
+
+        LinearLayout layout = new LinearLayout(context);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogStyle);
+        builder.setTitle("Set Search Radius");
+        builder.setSingleChoiceItems(R.array.dist_array, checkedItem, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(radiusList.get(which) != LocationSingleton.radius){
+                    LocationSingleton.radius = radiusList.get(which);
+                    LocationSingleton.radiusChanged = true;
+                }
+
+
+                Toast.makeText(context, "Radius set to "+ radiusList.get(which), Toast.LENGTH_SHORT).show();
+
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+
     }
 
 }

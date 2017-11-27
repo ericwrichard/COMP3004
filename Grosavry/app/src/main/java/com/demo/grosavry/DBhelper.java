@@ -356,7 +356,16 @@ public class DBhelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(ATR_1, name.toLowerCase());
-        values.put(ATR_2, Integer.parseInt(qty));
+
+        int quantity = 0 ;
+
+        try{
+            quantity = Integer.parseInt(qty);
+        } catch (NumberFormatException e){
+            quantity = 1;
+        }
+
+        values.put(ATR_2, quantity);
 
         long result = db.update(TABLE_NAME2,values,"NAME = ?", new String[]{name});
 

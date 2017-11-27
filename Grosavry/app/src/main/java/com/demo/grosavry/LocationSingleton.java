@@ -2,6 +2,7 @@ package com.demo.grosavry;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -17,6 +18,9 @@ public class LocationSingleton {
 
     private static final LocationSingleton INSTANCE = new LocationSingleton();
 
+    public static String radius = "5km";
+    public static boolean radiusChanged = true;
+
     private static boolean nearWalmart = false;
     private static boolean nearSobeys = false;
     private static boolean nearFarmboy = false;
@@ -27,10 +31,12 @@ public class LocationSingleton {
     public static final int REQUEST_LOCATION = 1;
     private static LocationManager lm;
 
-    private static Activity activity;
+    public static Activity activity;
     private static DBhelper myDb;
 
-    private LocationSingleton() {}
+    private LocationSingleton() {
+
+    }
 
     public static LocationSingleton getInstance(){
         return INSTANCE;
@@ -46,7 +52,17 @@ public class LocationSingleton {
 
     public static void callLocation(String radius) {
         lm = (LocationManager)activity.getSystemService(Context.LOCATION_SERVICE);
-        getLocation(radius);
+
+        HashMap<String, String> radius_conversion = new HashMap<>();
+        radius_conversion.put("2km", "2000");
+        radius_conversion.put("5km", "5000");
+        radius_conversion.put("10km", "10000");
+        radius_conversion.put("20km", "20000");
+        radius_conversion.put("30km", "30000");
+
+        Log.d("Error:", radius_conversion.get(radius));
+
+        getLocation(radius_conversion.get(radius));
     }
 
     public static void getLocation(String radius){
@@ -65,22 +81,11 @@ public class LocationSingleton {
                 double lat = location.getLatitude();
                 double longi = location.getLongitude();
 
-                HashMap<String, String> radius_conversion = new HashMap<>();
-
-                radius_conversion.put("2km", "2000");
-                radius_conversion.put("5km", "5000");
-                radius_conversion.put("10km", "10000");
-                radius_conversion.put("20km", "20000");
-                radius_conversion.put("30km", "30000");
-
-                String current_radius = radius_conversion.get(radius);
-                Log.d("Error:", radius);
-
-                String uWalmart = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + longi + "&radius=" + current_radius + "&name=walmart&key=" + googleKey;
-                String uLoblaws = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + longi + "&radius=" + current_radius + "&name=loblaws&key=" + googleKey;
-                String uFarmboy = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + longi + "&radius=" + current_radius + "&name=farmboy&key=" + googleKey;
-                String uFreshco = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + longi + "&radius=" + current_radius +  "&name=freshco&key=" + googleKey;
-                String uSobeys = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + longi + "&radius=" + current_radius +  "&name=sobeys&key=" + googleKey;
+                String uWalmart = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + longi + "&radius=" + radius + "&name=walmart&key=" + googleKey;
+                String uLoblaws = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + longi + "&radius=" + radius + "&name=loblaws&key=" + googleKey;
+                String uFarmboy = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + longi + "&radius=" + radius + "&name=farmboy&key=" + googleKey;
+                String uFreshco = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + longi + "&radius=" + radius +  "&name=freshco&key=" + googleKey;
+                String uSobeys = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + longi + "&radius=" + radius +  "&name=sobeys&key=" + googleKey;
 
                 Log.d("Error", uWalmart);
                 /*
@@ -152,8 +157,8 @@ public class LocationSingleton {
         }
     }
 
-    public static void sendLocation(boolean b, String loc){
-        if (b){
+    public static void sendLocation(boolean b, String loc) {
+        if (b) {
             Log.d("Error:", loc);
             myDb.addLoc(loc);
         }
