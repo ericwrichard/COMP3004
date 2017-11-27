@@ -1,0 +1,2 @@
+- implement the update method so when a duplicated item is added 
+  it will only update the quantity instead of add another item in the table. 
