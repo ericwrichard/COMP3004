@@ -1,0 +1,8 @@
+Group Meeting: (2 hours)
+- possible new features
+- debugging
+
+- Figure out how to improve the app
+- new operations for database
+- minor change for database
+- debugging   (1 hour)
