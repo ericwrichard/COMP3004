@@ -92,6 +92,7 @@ public class GroceryList extends Fragment{
                                           final String value = (String) parent.getItemAtPosition(position);
 
                                           LinearLayout layout = new LinearLayout(context);
+                                          layout.setOrientation(LinearLayout.VERTICAL);
                                           AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogStyle);
                                           builder.setTitle("Update Item");
 
@@ -213,7 +214,22 @@ public class GroceryList extends Fragment{
                 boolean isInserted = database.addItem(itemNameText, itemQtyText);
                 if (isInserted == true) {
                     Toast.makeText(getActivity().getApplicationContext(), "Item Added", Toast.LENGTH_LONG).show();
-                    shoppingList.add(itemNameText + "  -  " + itemQtyText);
+
+                    boolean found = false;
+                    // replace the string in shopping list
+                    for(int i = 0; i < shoppingList.size(); i++){
+                        String[] s = shoppingList.get(i).split("-");
+
+                        final String name = s[0].trim(), qty = s[1].trim();
+                        if(name.equals(itemNameText)){
+                            shoppingList.set(i, itemNameText + "  -  " + itemQtyText);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if(!found)
+                        shoppingList.add(itemNameText + "  -  " + itemQtyText);
+
                     adapter.notifyDataSetChanged();
                 }
                 else

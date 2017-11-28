@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.demo.grosavry.DBhelper;
@@ -84,8 +87,17 @@ public class Results extends Fragment {
                                           if(DatabaseSingleton.storeDistAddress.get(name) != null){
                                               address = DatabaseSingleton.storeDistAddress.get(name).address;
                                           }
-                                          builder.setMessage(address);
 
+                                          TextView text = new TextView(context);
+                                          text.setText(address);
+                                          text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 26.0f);
+                                          text.setTextColor(getResources().getColor(R.color.white));
+                                          text.setGravity(Gravity.CENTER);
+                                          text.setPadding(10, 10, 10, 10);
+
+                                          layout.addView(text);
+
+                                          builder.setView(layout);
 
                                           builder.show();
 
