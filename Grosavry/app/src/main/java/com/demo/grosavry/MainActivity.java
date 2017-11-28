@@ -27,6 +27,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.demo.grosavry.R;
@@ -35,6 +36,7 @@ import com.demo.grosavry.fragments.GroceryList;
 import com.demo.grosavry.fragments.OneFragment;
 import com.demo.grosavry.fragments.ThreeFragment;
 import com.demo.grosavry.fragments.TwoFragment;
+import com.demo.grosavry.fragments.Results;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private DBhelper database = null;
 
     private GroceryList gl = null;
+    private Results results = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         DatabaseSingleton.setDatabase(database);
         LocationSingleton.setDatabase(database);
         LocationSingleton.setActivity(this);
+        DatabaseSingleton.storeDistAddress = new HashMap<>();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -80,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case LocationSingleton.REQUEST_LOCATION:
                 // TODO distance interface
-                LocationSingleton.getInstance().getLocation("2km");
+                LocationSingleton.getInstance().getLocation(LocationSingleton.radius);
                 break;
         }
     }
@@ -90,22 +94,6 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.actionbar, menu);
 
-        /*
-        ImageView addBtn = (ImageView) menu.findItem(R.id.action_add).getActionView();
-
-        if(addBtn != null){
-            addBtn.setScaleX(0.0f);
-            addBtn.setScaleY(0.0f);
-            addBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Animation scaling = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scaler);
-                    view.startAnimation(scaling);
-                }
-            });
-        }
-        */
-
         return true;
     }
 
@@ -113,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
+                gl.setRadius();
                 return true;
 
             case R.id.action_add:
@@ -122,7 +111,18 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_total:
-                gl.getTotal();
+                //gl.getTotal();
+
+                database.rmvAllLoc();
+                LocationSingleton.callLocation(LocationSingleton.radius);
+
+
+            //results.updateResults(database.getTotal());
+
+                // switch tabs
+                TabLayout tabs = (TabLayout) this.findViewById(R.id.tabs);
+
+                tabs.getTabAt(1).select();
                 return true;
 
             default:
@@ -143,11 +143,13 @@ public class MainActivity extends AppCompatActivity {
         //adapter.addFragment(new DbFragment(), "DB");
         // adapter.addFragment(new ThreeFragment(), "THREE");
 
+        results = new Results();
         gl = new GroceryList();
 
         adapter.addFragment(gl, "LIST");
-        adapter.addFragment(new OneFragment(), "RESULTS");
-        adapter.addFragment(new TwoFragment(), "MAP");
+        adapter.addFragment(results, "RESULTS");
+        //adapter.addFragment(new OneFragment(), "RESULTS");
+        //adapter.addFragment(new TwoFragment(), "MAP");
         viewPager.setAdapter(adapter);
     }
 

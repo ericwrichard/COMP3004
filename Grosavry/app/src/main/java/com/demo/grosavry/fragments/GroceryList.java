@@ -2,6 +2,7 @@ package com.demo.grosavry.fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,10 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -78,6 +81,77 @@ public class GroceryList extends Fragment{
         adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_item_black, R.id.list_content, shoppingList);
         lv = getView().findViewById(R.id.results_view);
         lv.setAdapter(adapter);
+
+        final Context context = getActivity().getApplicationContext();
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                                  {
+                                      @Override
+                                      public void onItemClick(final AdapterView<?> parent, View view, int position, long id){
+
+                                          final String value = (String) parent.getItemAtPosition(position);
+
+                                          LinearLayout layout = new LinearLayout(context);
+                                          AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogStyle);
+                                          builder.setTitle("Update Item");
+
+                                          // Set up the input
+                                          final EditText itemQty = new EditText(context);
+                                          // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                                          itemQty.setInputType(InputType.TYPE_CLASS_NUMBER);
+                                          itemQty.setHint("Quantity");
+                                          itemQty.setHintTextColor(getResources().getColor(R.color.colorHint));
+                                          layout.addView(itemQty);
+
+                                          builder.setView(layout);
+
+                                          String[] s = value.split("-");
+
+                                          final String name = s[0].trim(), qty = s[1].trim();
+                                          Log.d("String", name + qty);
+
+                                          // Set up the buttons
+                                          builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                              @Override
+                                              public void onClick(DialogInterface dialog, int which) {
+
+                                                  String itemQtyText = itemQty.getText().toString();
+                                                  if(!itemQtyText.matches("\\d+")) itemQtyText = "1"; // check that quantity is an integer
+
+                                                  boolean isInserted = database.addItem(name, itemQtyText);
+                                                  if(isInserted){
+                                                      Toast.makeText(getActivity().getApplicationContext(), "Item Changed", Toast.LENGTH_LONG).show();
+                                                      for(int i = 0; i < shoppingList.size(); i++){
+                                                          if(shoppingList.get(i).equals(value)){
+                                                              shoppingList.set(i, name + " - " + itemQtyText);
+                                                              break;
+                                                          }
+                                                      }
+                                                      adapter.notifyDataSetChanged();
+                                                  }
+                                              }
+                                          });
+
+                                          builder.setNegativeButton("Remove Item", new DialogInterface.OnClickListener() {
+                                              @Override
+                                              public void onClick(DialogInterface dialog, int which) {
+                                                    database.rmvItem(name);
+                                                    for(int i = 0; i < shoppingList.size(); i++){
+                                                        if(shoppingList.get(i).equals(value)){
+                                                            shoppingList.remove(i);
+                                                            adapter.notifyDataSetChanged();
+                                                            break;
+                                                        }
+                                                    }
+
+                                              }
+                                          });
+
+                                          builder.show();
+
+                                      }
+                                  }
+        );
 
         /*
         btnAddItem = (Button)view.findViewById(R.id.AddItemBtn);
@@ -236,12 +310,12 @@ public class GroceryList extends Fragment{
             }
         }
 
-        final Context context = getActivity().getApplicationContext();
+        final Context context = LocationSingleton.activity;
 
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogStyle);
+        AlertDialog.Builder builder = new AlertDialog.Builder(LocationSingleton.activity, R.style.AlertDialogStyle);
         builder.setTitle("Set Search Radius");
         builder.setSingleChoiceItems(R.array.dist_array, checkedItem, new DialogInterface.OnClickListener() {
             @Override
@@ -250,7 +324,6 @@ public class GroceryList extends Fragment{
                     LocationSingleton.radius = radiusList.get(which);
                     LocationSingleton.radiusChanged = true;
                 }
-
 
                 Toast.makeText(context, "Radius set to "+ radiusList.get(which), Toast.LENGTH_SHORT).show();
 

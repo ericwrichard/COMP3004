@@ -1,14 +1,23 @@
 package com.demo.grosavry.fragments;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.demo.grosavry.DBhelper;
 import com.demo.grosavry.DatabaseSingleton;
@@ -53,10 +62,36 @@ public class Results extends Fragment {
 
         DatabaseSingleton.updateResults(res);
 
-        //Collections.addAll(shoppingList, "Eggs", "Yogurt", "Milk", "Bananas", "Apples", "Eggs", "Yogurt", "Milk", "Bananas", "Apples");
-
         lv = getView().findViewById(R.id.results_view);
         lv.setAdapter(DatabaseSingleton.adapter);
+
+        final Context context = getActivity().getApplicationContext();
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                                  {
+                                      @Override
+                                      public void onItemClick(final AdapterView<?> parent, View view, int position, long id){
+
+                                          final String value = (String) parent.getItemAtPosition(position);
+
+                                          LinearLayout layout = new LinearLayout(context);
+                                          AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogStyle);
+                                          builder.setTitle("Address:");
+                                          String[] s = value.split(":");
+                                          String name = s[0].trim();
+                                          Log.d("Error", name);
+                                          String address = "N/A";
+                                          if(DatabaseSingleton.storeDistAddress.get(name) != null){
+                                              address = DatabaseSingleton.storeDistAddress.get(name).address;
+                                          }
+                                          builder.setMessage(address);
+
+
+                                          builder.show();
+
+                                      }
+                                  }
+        );
     }
 
 

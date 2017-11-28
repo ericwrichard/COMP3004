@@ -2,9 +2,8 @@ package com.demo.grosavry;
 
 
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.util.Log;
+
 import android.widget.EditText;
 
 import java.io.BufferedReader;
@@ -14,10 +13,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import android.util.Log;
 
 public class Stores extends AsyncTask<String, String, String > {
 
-    private ProgressDialog pd;
     public interface StoreResponse {
         void finishedResult(String result);
     }
@@ -26,15 +25,6 @@ public class Stores extends AsyncTask<String, String, String > {
 
     public Stores(StoreResponse s) {
         this.s = s;
-    }
-
-    @Override
-    protected void onPreExecute(){
-        pd = new ProgressDialog(LocationSingleton.activity, R.style.ProgressDialogStyle);
-        pd.setTitle("Searching in " + LocationSingleton.radius + " radius.");
-        pd.setMessage("Please wait...");
-
-        pd.show();
     }
 
     @Override
@@ -91,27 +81,25 @@ public class Stores extends AsyncTask<String, String, String > {
                     buff.append(line);
                 }
 
-                if (storeLat.isEmpty() &&  line.toLowerCase().contains("\"lat\"")) {
+                if (line.toLowerCase().contains("\"lat\"")) {
                     splitArray = line.split(": ");
                     storeLat = splitArray[1];
 
                 }
 
-                if (storeLong.isEmpty() && line.toLowerCase().contains("lng")) {
+                if (line.toLowerCase().contains("lng")) {
                     splitArray = line.split(": ");
                     storeLong = splitArray[1];
 
                 }
-
-                /*
                 if (storeLong != ""){
-                    break;
+                    break; 
                 }
-                */
+            }
+            if ((storeLat == "" || storeLat == null) && (storeLat == "" || storeLat == null)) {
 
             }
-            Log.d("Error", storeLat + " " + storeLong);
-            if (!storeLong.isEmpty() && !storeLat.isEmpty()) {
+            else {
                 LocationSingleton.closestStore(storeLat, storeLong, store);
             }
 
@@ -148,8 +136,9 @@ public class Stores extends AsyncTask<String, String, String > {
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
         s.finishedResult(result);
-        pd.dismiss();
-        DatabaseSingleton.updateResults(DatabaseSingleton.getDatabase().getTotal());
+
     }
+
+
 
 }

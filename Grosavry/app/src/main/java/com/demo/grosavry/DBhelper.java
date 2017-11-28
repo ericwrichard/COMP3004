@@ -351,6 +351,13 @@ public class DBhelper extends SQLiteOpenHelper {
         // import a txt file and use for loop to put all values into the Database
     }
 
+    public boolean rmvItem(String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.delete(TABLE_NAME2,"NAME = ?",new String[]{name.toLowerCase()});
+        if (result>0) return true;
+        return false;
+    }
+
     public boolean addItem(String name, String qty){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -422,10 +429,10 @@ public class DBhelper extends SQLiteOpenHelper {
                 " CROSS JOIN " + TABLE_NAME2 + ") ) GROUP BY LOCATION"  , null);
 
         Cursor data = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
-        while(data.moveToNext())
+        /*while(data.moveToNext())
             Log.d("Error:", data.getString(0) + " " + data.getString(1)
                     + " " +  data.getString(2) + " " +  data.getString(3));
-
+        */
         return items;
 
 

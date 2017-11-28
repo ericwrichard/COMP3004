@@ -6,14 +6,18 @@ import android.widget.ArrayAdapter;
 import com.demo.grosavry.DBhelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class DatabaseSingleton {
     private static final DatabaseSingleton INSTANCE = new DatabaseSingleton();
 
+
+
     public static ArrayAdapter<String> adapter = null;
     public static ArrayList<String> storeList = null;
+    public static HashMap<String,DistAddress> storeDistAddress = null;
 
     private static DBhelper database;
 
@@ -44,7 +48,10 @@ public class DatabaseSingleton {
             Float cost = entry.getKey();
             String loc = entry.getValue();
 
-            storeList.add(loc + "    $" + String.format("%.2f", cost));
+            String dist = "0km";
+            if(DatabaseSingleton.storeDistAddress.get(loc) != null) dist = DatabaseSingleton.storeDistAddress.get(loc).distance;
+            storeList.add(loc + " : $" + String.format("%.2f", cost) + "\n" +
+                    "Distance: " + dist);
         }
 
         adapter.notifyDataSetChanged();
