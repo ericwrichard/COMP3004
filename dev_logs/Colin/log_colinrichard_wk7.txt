@@ -1,0 +1,1 @@
+Week 7 was mainly a lot of debugging. We intergrated a lot of our own work into 1 file and many problems arose. I also decided to perform some additional research for retrieving real data such as public online grocery store db's or even retretrieving data from the flyers.

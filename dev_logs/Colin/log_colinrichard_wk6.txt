@@ -1,0 +1,1 @@
+Week 6 involved finishing the Geolocation functionality for the app such as finding the users location, and finding the stores within a raduis. Spent some time with the group to decide on future work we should aim to finish within the next week or two. 

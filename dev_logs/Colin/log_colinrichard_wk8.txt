@@ -1,0 +1,1 @@
+Worked more on the geolocation aspect of the app. Started working on but didn't get working yet, the program to have the ability to print how info about the stores such as distance and address to help the user. 

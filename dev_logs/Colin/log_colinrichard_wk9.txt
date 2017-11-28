@@ -1,0 +1,1 @@
+This week our grouped worked on preparing for d3. We wrote up the document, fixed up the code a bit by organizing it, and practiced our presentation that would be present in front of the TA 
